@@ -25,7 +25,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent) :
 
 
 	m_pVehicle(agent),
-	m_iFlags(0),
+	m_iFlags(wall_avoidance),
 	m_dDBoxLength(Prm.MinDetectionBoxLength),
 	m_dWeightCohesion(Prm.CohesionWeight),
 	m_dWeightAlignment(Prm.AlignmentWeight),

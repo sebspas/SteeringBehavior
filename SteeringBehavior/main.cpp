@@ -48,7 +48,7 @@ LRESULT CALLBACK WindowProc(HWND   hwnd,
 		//created
 	case WM_CREATE:
 	{
-		//to get get the size of the client window first we need  to create
+		//to get the size of the client window first we need to create
 		//a RECT and then ask Windows to fill in our RECT structure with
 		//the client window size. Then we assign to cxClient and cyClient 
 		//accordingly
@@ -84,7 +84,8 @@ LRESULT CALLBACK WindowProc(HWND   hwnd,
 
 		g_GameWorld = new GameWorld(cxClient, cyClient);
 
-		ChangeMenuState(hwnd, IDR_PRIORITIZED, MFS_CHECKED);
+		ChangeMenuState(hwnd, ID_OB_WALLS, MFS_CHECKED);
+		ChangeMenuState(hwnd, IDR_WEIGHTED_SUM, MFS_CHECKED);
 		ChangeMenuState(hwnd, ID_VIEW_FPS, MFS_CHECKED);
 
 	}
@@ -209,7 +210,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	int       iCmdShow)
 {
 	//handle to our window
-	HWND						hWnd;
+	HWND			hWnd;
 
 	//our window class structure
 	WNDCLASSEX     winclass;
