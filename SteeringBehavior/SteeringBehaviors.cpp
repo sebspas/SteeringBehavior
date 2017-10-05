@@ -53,7 +53,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent) :
 	m_dWeightEvade(Prm.EvadeWeight),
 	m_dWeightFollowPath(Prm.FollowPathWeight),
 	m_bCellSpaceOn(false),
-	m_SummingMethod(prioritized)
+	m_SummingMethod(weighted_average)
 
 
 {
@@ -1603,6 +1603,11 @@ void SteeringBehavior::RenderAids()
 	if (On(follow_path) && m_pVehicle->World()->RenderPath())
 	{
 		m_pPath->Render();
+	}
+
+	// TODO
+	if (On(manual)) {
+
 	}
 
 

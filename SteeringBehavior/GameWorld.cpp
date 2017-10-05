@@ -59,7 +59,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		cy / 2.0 + RandomClamped()*cy / 2.0);
 
 	// Agent leader
-	AgentLeader* pLeader = new AgentLeader(this,
+	pLeader = new AgentLeader(this,
 		SpawnPos,                 //initial position
 		RandFloat()*TwoPi,        //start rotation
 		Vector2D(0, 0),            //velocity
@@ -319,6 +319,18 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
 
 	switch (wParam)
 	{
+	case 'Q':
+	{
+		//TODO 
+		//pLeader->Steering()->Manual(teta);
+	}
+	break;
+	case 'D':
+	{
+		//TODO
+		//pLeader->Steering()->Manual(teta);
+	}
+	break;
 	case 'U':
 	{
 		delete m_pPath;

@@ -64,9 +64,6 @@ private:
 	Vehicle& operator=(const Vehicle&);
 
 	// The target of this agent
-	//Vehicle* m_pTargetLeader;
-
-	// The target of this agent
 	Vehicle* m_pTarget;
 
 	// The follower of this agent
@@ -74,8 +71,6 @@ private:
 
 	// to know if it's a leader
 	bool         m_isLeader;
-
-
 
 public:
 
@@ -140,10 +135,6 @@ public:
 		return pV;
 	}
 
-	/*void setTargetLeader(Vehicle* targetleader) { 
-		this->m_pTargetLeader = targetleader;
-	}*/
-
 	//get the follower
 	Vehicle* getFollower() { return this->m_pFollower; };
 
@@ -157,11 +148,6 @@ public:
 	bool isLeader() {
 		return m_isLeader;
 	};
-
-
- 
 };
-
-
 
 #endif

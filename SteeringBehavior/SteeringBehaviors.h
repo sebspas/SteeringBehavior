@@ -246,6 +246,10 @@ private:
   Vector2D SeparationPlus(const std::vector<Vehicle*> &agents);
   Vector2D AlignmentPlus(const std::vector<Vehicle*> &agents);
 
+
+  // Manual
+  Vector2D Manual();
+
     /* .......................................................
 
                        END BEHAVIOR DECLARATIONS

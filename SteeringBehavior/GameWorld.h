@@ -21,6 +21,7 @@
 #include "BaseGameEntity.h"
 #include "EntityFunctionTemplates.h"
 #include "vehicle.h"
+#include "AgentLeader.h"
 
 
 class Obstacle;
@@ -60,6 +61,9 @@ private:
 
   //keeps track of the average FPS
   double                         m_dAvFrameTime;
+
+  // leader principal pour le déplacement
+  AgentLeader* pLeader;
 
 
   //flags to turn aids and obstacles etc on/off
