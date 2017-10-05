@@ -31,7 +31,7 @@ GameWorld::GameWorld(int cx, int cy) :
 	m_cyClient(cy),
 	m_bPaused(false),
 	m_vCrosshair(Vector2D(cxClient() / 2.0, cxClient() / 2.0)),
-	m_bShowWalls(false),
+	m_bShowWalls(true),
 	m_bShowObstacles(false),
 	m_bShowPath(false),
 	m_bShowWanderCircle(false),
@@ -45,6 +45,8 @@ GameWorld::GameWorld(int cx, int cy) :
 	m_bViewKeys(false),
 	m_bShowCellSpaceInfo(false)
 {
+	//create walls per default
+	CreateWalls();
 
 	//setup the spatial subdivision class
 	m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
