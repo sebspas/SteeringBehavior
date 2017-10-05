@@ -23,7 +23,10 @@ public:
 			velocity, mass, max_force,
 			max_speed, max_turn_rate, scale) {
 
-		// we set the size of or leader
+		// set as leader
+		this->setAsLeader(true);
+
+		// we set the size of our leader
 		this->SetScale(Vector2D(15, 15));
 
 		// we set the movement to wanderOn

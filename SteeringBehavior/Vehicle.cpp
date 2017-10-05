@@ -34,7 +34,11 @@ Vehicle::Vehicle(GameWorld* world,
                                        m_pWorld(world),
                                        m_vSmoothedHeading(Vector2D(0,0)),
                                        m_bSmoothingOn(false),
-                                       m_dTimeElapsed(0.0)
+                                       m_dTimeElapsed(0.0), 
+	                                   m_pFollower(NULL),
+	                                   m_pTarget(NULL),
+	                                   m_isLeader(false)
+							
 {  
   InitializeBuffer();
 

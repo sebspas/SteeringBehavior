@@ -11,6 +11,7 @@
 #include "ParamLoader.h"
 #include "resource.h"
 #include "misc/WindowUtils.h"
+#include <iostream>
 
 //--------------------------------- Globals ------------------------------
 //
@@ -293,6 +294,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		if (msg.message != WM_QUIT)
 		{
+			std::cout << "Output sentence 1000";
 			//update
 			g_GameWorld->Update(timer.TimeElapsed());
 

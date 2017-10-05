@@ -8,7 +8,14 @@
 class AgentPoursuiveur : public Vehicle
 {
 
-public:
+public :
+	
+
+	// Find target to follow
+	Vehicle* findWhoFollow(Vehicle* pToFollow);
+
+	// Override Update
+	void Update(double time_elapsed);
 
 	AgentPoursuiveur(GameWorld* world,
 		Vector2D position,
@@ -18,13 +25,17 @@ public:
 		double    max_force,
 		double    max_speed,
 		double    max_turn_rate,
-		double    scale,
-		Vehicle* target) :
+		double    scale/*,
+		Vehicle* target*/) :
 		Vehicle(world, position, rotation,
 			velocity, mass, max_force,
-			max_speed, max_turn_rate, scale) {
+			max_speed, max_turn_rate, scale)
+	{
 
-		this->Steering()->OffsetPursuitOn(target, Vector2D(-20, 0));
+		/*this->Steering()->OffsetPursuitOn(target, Vector2D(-20, 0));*/
+
+		// smart follower
+		this->Steering()->WanderOn();
 	};
 
 };

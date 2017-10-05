@@ -11,6 +11,7 @@
 #include "ParamLoader.h"
 #include "misc/WindowUtils.h"
 #include "misc/Stream_Utility_Functions.h"
+#include <iostream>
 
 // OUR Added classes
 #include "AgentLeader.h"
@@ -70,7 +71,21 @@ GameWorld::GameWorld(int cx, int cy) :
 
 	m_Vehicles.push_back(pLeader);
 
-	Vehicle* pTarget = pLeader;
+	/*Vehicle* pTarget = pLeader;*/
+	SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
+		cy / 2.0 + RandomClamped()*cy / 2.0);
+	AgentLeader* pLeader2 = new AgentLeader(this,
+		SpawnPos,                 //initial position
+		RandFloat()*TwoPi,        //start rotation
+		Vector2D(0, 0),            //velocity
+		Prm.VehicleMass,          //mass
+		Prm.MaxSteeringForce,     //max force
+		Prm.MaxSpeed,             //max velocity
+		Prm.MaxTurnRatePerSecond, //max turn rate
+		Prm.VehicleScale);        //scale
+
+	m_Vehicles.push_back(pLeader2);
+
 	// CREATE ALL THE AGENT POURSUIVEUR
 	for (int a = 0; a < Prm.NumAgents; ++a)
 	{
@@ -88,15 +103,15 @@ GameWorld::GameWorld(int cx, int cy) :
 			Prm.MaxSteeringForce,     //max force
 			Prm.MaxSpeed,             //max velocity
 			Prm.MaxTurnRatePerSecond, //max turn rate
-			Prm.VehicleScale,
-			pTarget);        //scale
+			Prm.VehicleScale/*,
+			pTarget*/);        //scale
 
 		m_Vehicles.push_back(pPoursuiveur);
 
 		//add it to the cell subdivision
 		m_pCellSpace->AddEntity(pPoursuiveur);
 
-		pTarget = pPoursuiveur;
+		/*pTarget = pPoursuiveur;*/
 	}
 	//setup the agents
 	/*for (int a = 0; a < Prm.NumAgents-1; ++a)
@@ -173,6 +188,7 @@ GameWorld::~GameWorld()
 void GameWorld::Update(double time_elapsed)
 {
 	if (m_bPaused) return;
+	std::cout << "Output sentence 100";
 
 	//create a smoother to smooth the framerate
 	const int SampleRate = 10;

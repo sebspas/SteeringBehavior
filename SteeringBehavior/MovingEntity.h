@@ -42,6 +42,8 @@ protected:
   //the maximum rate (radians per second)this vehicle can rotate         
   double       m_dMaxTurnRate;
 
+  
+
 public:
 
 
@@ -91,6 +93,7 @@ public:
 
   double     MaxTurnRate()const{return m_dMaxTurnRate;}
   void      SetMaxTurnRate(double val){m_dMaxTurnRate = val;}
+
 
 };
 
