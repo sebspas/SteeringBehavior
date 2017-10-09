@@ -72,6 +72,11 @@ private:
 	// to know if it's a leader
 	bool         m_isLeader;
 
+	//for manual mode clampedx and clampedy
+	double m_dclampedx;
+	double m_dclampedy;
+
+
 public:
 
 	Vehicle(GameWorld* world,
@@ -148,6 +153,12 @@ public:
 	bool isLeader() {
 		return m_isLeader;
 	};
+
+	//for manual mode with the clamped
+	void setClampedx(double x) { m_dclampedx = x; };
+	void setClampedy(double y) { m_dclampedy = y; };
+	double getClampedx() { return m_dclampedx; };
+	double getClampedy() { return m_dclampedy; };
 };
 
 #endif

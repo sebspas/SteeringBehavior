@@ -32,6 +32,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent) :
 	m_dWeightSeparation(Prm.SeparationWeight),
 	m_dWeightObstacleAvoidance(Prm.ObstacleAvoidanceWeight),
 	m_dWeightWander(Prm.WanderWeight),
+	m_dWeightManual(Prm.WanderWeight),
 	m_dWeightWallAvoidance(Prm.WallAvoidanceWeight),
 	m_dViewDistance(Prm.ViewDistance),
 	m_dWallDetectionFeelerLength(Prm.WallDetectionFeelerLength),
@@ -307,6 +308,13 @@ Vector2D SteeringBehavior::CalculatePrioritized()
 		if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
 	}
 
+	if (On(manual)) 
+	{
+		force = Manual() * m_dWeightManual;
+
+		if (!AccumulateForce(m_vSteeringForce, force)) return m_vSteeringForce;
+	}
+
 	if (On(pursuit))
 	{
 		assert(m_pTargetAgent1 && "pursuit target not assigned");
@@ -425,6 +433,11 @@ Vector2D SteeringBehavior::CalculateWeightedSum()
 	if (On(wander))
 	{
 		m_vSteeringForce += Wander() * m_dWeightWander;
+	}
+
+	if (On(manual))
+	{
+		m_vSteeringForce += Manual() * m_dWeightManual;
 	}
 
 	if (On(seek))
@@ -654,6 +667,18 @@ Vector2D SteeringBehavior::CalculateDithered()
 		}
 	}
 
+	if (On(manual) && RandFloat() < Prm.prWander)
+	{
+		m_vSteeringForce += Manual() * m_dWeightManual / Prm.prWander;
+
+		if (!m_vSteeringForce.isZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
 	if (On(seek) && RandFloat() < Prm.prSeek)
 	{
 		m_vSteeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek / Prm.prSeek;
@@ -850,6 +875,40 @@ Vector2D SteeringBehavior::Wander()
 	return Target - m_pVehicle->Pos();
 }
 
+
+
+Vector2D SteeringBehavior::Manual()
+{
+	//this behavior is dependent on the update rate, so this line must
+	//be included when using time independent framerate.
+	double JitterThisTimeSlice = m_dWanderJitter * m_pVehicle->TimeElapsed();
+
+
+	//RandomClamped() return a value between -1 and 1
+
+	//first, add a small vector depending on the input of the user to the target's position
+	m_vWanderTarget += Vector2D(m_pVehicle->getClampedx() * JitterThisTimeSlice,
+		m_pVehicle->getClampedy() * JitterThisTimeSlice);
+
+	//reproject this new vector back on to a unit circle
+	m_vWanderTarget.Normalize();
+
+	//increase the length of the vector to the same as the radius
+	//of the wander circle
+	m_vWanderTarget *= m_dWanderRadius;
+
+	//move the target into a position WanderDist in front of the agent
+	Vector2D target = m_vWanderTarget + Vector2D(m_dWanderDistance, 0);
+
+	//project the target into world space
+	Vector2D Target = PointToWorldSpace(target,
+		m_pVehicle->Heading(),
+		m_pVehicle->Side(),
+		m_pVehicle->Pos());
+
+	//and steer towards it
+	return Target - m_pVehicle->Pos();
+}
 
 //---------------------- ObstacleAvoidance -------------------------------
 //
@@ -1607,7 +1666,9 @@ void SteeringBehavior::RenderAids()
 
 	// TODO
 	if (On(manual)) {
-
+		if (KEYDOWN('W')) { m_pVehicle->setClampedx(-0.1); m_pVehicle->setClampedy(-0.5); }
+		if (KEYDOWN('E')) { m_pVehicle->setClampedx(-0.1); m_pVehicle->setClampedy(0.5); }
+		if (!KEYDOWN('W') && !KEYDOWN('E')){ m_pVehicle->setClampedx(1); m_pVehicle->setClampedy(0); }
 	}
 
 

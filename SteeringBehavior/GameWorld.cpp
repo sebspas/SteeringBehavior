@@ -72,6 +72,8 @@ GameWorld::GameWorld(int cx, int cy) :
 		Prm.VehicleScale);        //scale
 
 	m_Vehicles.push_back(pLeader);
+	pLeader->Steering()->WanderOff();
+	pLeader->Steering()->ManualOn();
 
 	/*Vehicle* pTarget = pLeader;*/
 	SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,

@@ -37,7 +37,9 @@ Vehicle::Vehicle(GameWorld* world,
                                        m_dTimeElapsed(0.0), 
 	                                   m_pFollower(NULL),
 	                                   m_pTarget(NULL),
-	                                   m_isLeader(false)
+	                                   m_isLeader(false),
+	                                   m_dclampedx(1),
+	                                   m_dclampedy(0)
 							
 {  
   InitializeBuffer();

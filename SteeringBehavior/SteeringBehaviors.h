@@ -73,6 +73,7 @@ private:
     hide               = 0x04000,
     flock              = 0x08000,
     offset_pursuit     = 0x10000,
+	manual             = 0x20000,
   };
 
 private:
@@ -121,6 +122,7 @@ private:
   double        m_dWeightCohesion;
   double        m_dWeightAlignment;
   double        m_dWeightWander;
+  double		m_dWeightManual;
   double        m_dWeightObstacleAvoidance;
   double        m_dWeightWallAvoidance;
   double        m_dWeightSeek;
@@ -210,6 +212,9 @@ private:
   //this behavior makes the agent wander about randomly
   Vector2D Wander();
 
+  //this behavior makes the agent follow the commands of the user
+  Vector2D Manual();
+
   //this returns a steering force which will attempt to keep the agent 
   //away from any obstacles it may encounter
   Vector2D ObstacleAvoidance(const std::vector<BaseGameEntity*>& obstacles);
@@ -245,10 +250,6 @@ private:
   Vector2D CohesionPlus(const std::vector<Vehicle*> &agents);
   Vector2D SeparationPlus(const std::vector<Vehicle*> &agents);
   Vector2D AlignmentPlus(const std::vector<Vehicle*> &agents);
-
-
-  // Manual
-  Vector2D Manual();
 
     /* .......................................................
 
@@ -318,6 +319,7 @@ public:
   void SeekOn(){m_iFlags |= seek;}
   void ArriveOn(){m_iFlags |= arrive;}
   void WanderOn(){m_iFlags |= wander;}
+  void ManualOn() { m_iFlags |= manual; }
   void PursuitOn(Vehicle* v){m_iFlags |= pursuit; m_pTargetAgent1 = v;}
   void EvadeOn(Vehicle* v){m_iFlags |= evade; m_pTargetAgent1 = v;}
   void CohesionOn(){m_iFlags |= cohesion;}
@@ -335,6 +337,7 @@ public:
   void SeekOff()  {if(On(seek))   m_iFlags ^=seek;}
   void ArriveOff(){if(On(arrive)) m_iFlags ^=arrive;}
   void WanderOff(){if(On(wander)) m_iFlags ^=wander;}
+  void ManualOff() { if (On(manual)) m_iFlags ^= manual; }
   void PursuitOff(){if(On(pursuit)) m_iFlags ^=pursuit;}
   void EvadeOff(){if(On(evade)) m_iFlags ^=evade;}
   void CohesionOff(){if(On(cohesion)) m_iFlags ^=cohesion;}
@@ -352,6 +355,7 @@ public:
   bool isSeekOn(){return On(seek);}
   bool isArriveOn(){return On(arrive);}
   bool isWanderOn(){return On(wander);}
+  bool isManualOn() { return On(manual); }
   bool isPursuitOn(){return On(pursuit);}
   bool isEvadeOn(){return On(evade);}
   bool isCohesionOn(){return On(cohesion);}
