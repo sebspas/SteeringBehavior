@@ -3,14 +3,13 @@
 #include <iostream>
 
 
-
-
-
 Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 {
+	numFollower = 0;
 	while (pToFollow->getFollower() != NULL)
 	{
 		pToFollow = pToFollow->getFollower();
+		numFollower++;
 	}
 
 	return pToFollow;
@@ -41,8 +40,36 @@ void AgentPoursuiveur::Update(double time_elapsed)
 	if (pTargetLeader != NULL && this->getTargetLeader() != pTargetLeader) {
 		this->setTarget(findWhoFollow(pTargetLeader));
 		this->Steering()->WanderOff();
-		this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-20, 0));
+
+		// normal offset pursuit behavior
+		// this->adaptBehavior(Behavior::INLINE);
+
+		// attempt at V-flocking beahvior
+		this->adaptBehavior(Behavior::VFLOCKING, pTargetLeader);
 	};
 
 	Vehicle::Update(time_elapsed);
+}
+
+
+void AgentPoursuiveur::adaptBehavior(Behavior behave, Vehicle* pTargetLeader) {
+	switch (behave)
+	{
+	case Behavior::INLINE:
+		this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-20, 0));
+		break;
+
+	case Behavior::VFLOCKING:
+		this->Steering()->FlockingOn();
+		if (this->numFollower % 2 == 0) {
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-3, 12 * this->numFollower));
+		}
+		else {
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(0, -12 * this->numFollower));
+		}
+		break;
+
+	default:
+		break;
+	}
 }

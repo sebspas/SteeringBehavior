@@ -76,7 +76,6 @@ private:
 	double m_dclampedx;
 	double m_dclampedy;
 
-
 public:
 
 	Vehicle(GameWorld* world,

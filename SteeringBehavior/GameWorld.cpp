@@ -76,6 +76,7 @@ GameWorld::GameWorld(int cx, int cy) :
 	pLeader->Steering()->ManualOn();
 
 	/*Vehicle* pTarget = pLeader;*/
+	/*
 	SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
 		cy / 2.0 + RandomClamped()*cy / 2.0);
 	AgentLeader* pLeader2 = new AgentLeader(this,
@@ -89,6 +90,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		Prm.VehicleScale);        //scale
 
 	m_Vehicles.push_back(pLeader2);
+	*/
 
 	// CREATE ALL THE AGENT POURSUIVEUR
 	for (int a = 0; a < Prm.NumAgents; ++a)

@@ -9,10 +9,12 @@ class AgentPoursuiveur : public Vehicle
 {
 
 public :
-	
+
+	int numFollower = 1;
+	enum class Behavior { INLINE, VFLOCKING };
 
 	// Find target to follow
-	Vehicle* findWhoFollow(Vehicle* pToFollow);
+	Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow);
 
 	// Override Update
 	void Update(double time_elapsed);
@@ -33,6 +35,10 @@ public :
 		// smart follower
 		this->Steering()->WanderOn();
 	};
+
+
+private:
+	void AgentPoursuiveur::adaptBehavior(Behavior behave, Vehicle* pTargetLeader);
 
 };
 
