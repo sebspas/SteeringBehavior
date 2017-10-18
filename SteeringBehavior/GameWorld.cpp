@@ -72,6 +72,8 @@ GameWorld::GameWorld(int cx, int cy) :
 		Prm.VehicleScale);        //scale
 
 	m_Vehicles.push_back(pLeader);
+	m_Leaders.push_back(pLeader);
+
 	pLeader->Steering()->WanderOff();
 	pLeader->Steering()->ManualOn();
 
@@ -113,6 +115,8 @@ GameWorld::GameWorld(int cx, int cy) :
 			pTarget*/);        //scale
 
 		m_Vehicles.push_back(pPoursuiveur);
+
+		m_Poursuiveur.push_back(pPoursuiveur);
 
 		//add it to the cell subdivision
 		m_pCellSpace->AddEntity(pPoursuiveur);
@@ -591,6 +595,43 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		CheckMenuItemAppropriately(hwnd, ID_MENU_SMOOTHING, m_Vehicles[0]->isSmoothingOn());
 	}
 
+	break;
+
+	case ID_BEHAVIOUR_FORMATIONV:
+	{
+		ChangeMenuState(hwnd, ID_BEHAVIOUR_FORMATIONV, MFS_CHECKED);
+		ChangeMenuState(hwnd, ID_BEHAVIOUR_FILE, MFS_UNCHECKED);
+
+		for (int i = 0; i < m_Poursuiveur.size(); i++)
+		{
+			// we change the current behavior
+			m_Poursuiveur[i]->SetBehavior(AgentPoursuiveur::Behavior::VFLOCKING);
+
+			// then we udpate the position of all the agent, if he has a target
+			if (m_Poursuiveur[i]->getTarget() != NULL) 
+				m_Poursuiveur[i]->adaptBehavior();
+		}
+
+	}
+
+	break;
+
+	case ID_BEHAVIOUR_FILE:
+	{
+		ChangeMenuState(hwnd, ID_BEHAVIOUR_FORMATIONV, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_BEHAVIOUR_FILE, MFS_CHECKED);
+
+		for (int i = 0; i < m_Poursuiveur.size(); i++)
+		{
+			// we change the current behavior
+			m_Poursuiveur[i]->SetBehavior(AgentPoursuiveur::Behavior::INLINE);
+
+			// then we udpate the position of all the agent
+			if (m_Poursuiveur[i]->getTarget() != NULL)
+				m_Poursuiveur[i]->adaptBehavior();
+		}
+	}
+	
 	break;
 
 	}//end switch

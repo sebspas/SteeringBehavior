@@ -50,6 +50,11 @@ BEGIN
     BEGIN
         MENUITEM "On/Off",                      ID_MENU_SMOOTHING
     END
+    POPUP "Behaviour"
+    BEGIN
+        MENUITEM "Formation V",                 ID_BEHAVIOUR_FORMATIONV
+        MENUITEM "File Indienne",               ID_BEHAVIOUR_FILE, CHECKED
+    END
 END
 
 

@@ -11,7 +11,11 @@ class AgentPoursuiveur : public Vehicle
 public :
 
 	int numFollower = 1;
+
+	// the different behavior for the poursuiveur
 	enum class Behavior { INLINE, VFLOCKING };
+
+	Behavior currentBehavior = Behavior::INLINE;
 
 	// Find target to follow
 	Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow);
@@ -36,9 +40,14 @@ public :
 		this->Steering()->WanderOn();
 	};
 
+	void AgentPoursuiveur::adaptBehavior();
+
+	void SetBehavior(Behavior behave) {
+		this->currentBehavior = behave;
+	}
 
 private:
-	void AgentPoursuiveur::adaptBehavior(Behavior behave, Vehicle* pTargetLeader);
+
 
 };
 

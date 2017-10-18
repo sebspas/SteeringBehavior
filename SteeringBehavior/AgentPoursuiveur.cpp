@@ -45,18 +45,20 @@ void AgentPoursuiveur::Update(double time_elapsed)
 		// this->adaptBehavior(Behavior::INLINE);
 
 		// attempt at V-flocking beahvior
-		this->adaptBehavior(Behavior::VFLOCKING, pTargetLeader);
+		this->adaptBehavior();
 	};
 
 	Vehicle::Update(time_elapsed);
 }
 
 
-void AgentPoursuiveur::adaptBehavior(Behavior behave, Vehicle* pTargetLeader) {
-	switch (behave)
+void AgentPoursuiveur::adaptBehavior() {
+
+	switch (this->currentBehavior)
 	{
 	case Behavior::INLINE:
-		this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-20, 0));
+		this->Steering()->FlockingOff();
+		this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-5, 0));
 		break;
 
 	case Behavior::VFLOCKING:

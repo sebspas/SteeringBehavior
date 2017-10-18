@@ -22,6 +22,8 @@
 #include "EntityFunctionTemplates.h"
 #include "vehicle.h"
 #include "AgentLeader.h"
+#include "AgentPoursuiveur.h"
+#include "SteeringBehaviors.h"
 
 
 class Obstacle;
@@ -38,6 +40,12 @@ private:
 
   //a container of all the moving entities
   std::vector<Vehicle*>         m_Vehicles;
+
+  // all the poursuiveur
+  std::vector<AgentPoursuiveur *> m_Poursuiveur;
+
+  // all the leaders
+  std::vector<AgentLeader *> m_Leaders;
 
   //any obstacles
   std::vector<BaseGameEntity*>  m_Obstacles;
