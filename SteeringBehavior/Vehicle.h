@@ -25,7 +25,12 @@ class SteeringBehavior;
 
 class Vehicle : public MovingEntity
 {
+protected:
+	// color of the vehicle
+	enum ColorVehicle { RED, GREEN, YELLOW, BLUE };
 
+	// current color of the vehicle
+	ColorVehicle currentColor = BLUE;
 private:
 
 	//a pointer to the world data. So a vehicle can access any obstacle,
@@ -95,6 +100,8 @@ public:
 
 	void        Render();
 
+	ColorVehicle getCurrentColor() { return this->currentColor; }
+
 
 	//-------------------------------------------accessor methods
 	SteeringBehavior*const  Steering()const { return m_pSteering; }
@@ -158,6 +165,12 @@ public:
 	void setClampedy(double y) { m_dclampedy = y; };
 	double getClampedx() { return m_dclampedx; };
 	double getClampedy() { return m_dclampedy; };
+
+
+	//change the color of the vehicle
+	void setColor(ColorVehicle color) {
+		this->currentColor = color;
+	}
 };
 
 #endif

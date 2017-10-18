@@ -602,7 +602,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_BEHAVIOUR_FORMATIONV, MFS_CHECKED);
 		ChangeMenuState(hwnd, ID_BEHAVIOUR_FILE, MFS_UNCHECKED);
 
-		for (int i = 0; i < m_Poursuiveur.size(); i++)
+		for (unsigned int i = 0; i < m_Poursuiveur.size(); i++)
 		{
 			// we change the current behavior
 			m_Poursuiveur[i]->SetBehavior(AgentPoursuiveur::Behavior::VFLOCKING);
@@ -621,7 +621,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_BEHAVIOUR_FORMATIONV, MFS_UNCHECKED);
 		ChangeMenuState(hwnd, ID_BEHAVIOUR_FILE, MFS_CHECKED);
 
-		for (int i = 0; i < m_Poursuiveur.size(); i++)
+		for (unsigned int i = 0; i < m_Poursuiveur.size(); i++)
 		{
 			// we change the current behavior
 			m_Poursuiveur[i]->SetBehavior(AgentPoursuiveur::Behavior::INLINE);

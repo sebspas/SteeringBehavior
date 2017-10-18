@@ -127,17 +127,26 @@ void Vehicle::Render()
   //a vector to hold the transformed vertices
   static std::vector<Vector2D>  m_vecVehicleVBTrans;
 
+  if (currentColor == ColorVehicle::BLUE) {
+	  gdi->BluePen();
+  }
+  else if (currentColor == ColorVehicle::RED) {
+	  gdi->RedPen();
+  }
+  else if (currentColor == ColorVehicle::GREEN) {
+	  gdi->GreenPen();
+  }
+  else if (currentColor == ColorVehicle::YELLOW) {
+	  gdi->GreenPen();
+  }
+
+
   //render neighboring vehicles in different colors if requested
   if (m_pWorld->RenderNeighbors())
   {
     if (ID() == 0) gdi->RedPen();
     else if(IsTagged()) gdi->GreenPen();
     else gdi->BluePen();
-  }
-
-  else
-  {
-    gdi->BluePen();
   }
 
   if (Steering()->isInterposeOn())

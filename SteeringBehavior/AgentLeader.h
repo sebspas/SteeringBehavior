@@ -33,6 +33,8 @@ public:
 		this->Steering()->WanderOn();
 
 		this->SetMaxSpeed(90);
+
+		this->setColor(ColorVehicle::RED);
 	};
 
 };

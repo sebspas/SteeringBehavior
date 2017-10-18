@@ -46,6 +46,9 @@ void AgentPoursuiveur::Update(double time_elapsed)
 
 		// attempt at V-flocking beahvior
 		this->adaptBehavior();
+
+		// change the color of the vehicle to the color of the followed leader
+		this->setColor(pTargetLeader->getCurrentColor());
 	};
 
 	Vehicle::Update(time_elapsed);
