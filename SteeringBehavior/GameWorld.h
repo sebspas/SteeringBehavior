@@ -70,8 +70,9 @@ private:
   //keeps track of the average FPS
   double                         m_dAvFrameTime;
 
-  // leader principal pour le déplacement
-  AgentLeader* pLeader;
+  int m_icx;
+
+  int m_icy;
 
 
   //flags to turn aids and obstacles etc on/off
@@ -93,7 +94,9 @@ private:
 
   void CreateWalls();
 
-  
+  void CreatesAllVehicles();
+
+  void ResetGame();
 
 public:
   

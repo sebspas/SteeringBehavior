@@ -44,7 +44,9 @@ GameWorld::GameWorld(int cx, int cy) :
 	m_bRenderNeighbors(false),
 	m_bViewKeys(false),
 	m_bShowCellSpaceInfo(false),
-	m_bManualControl(false)
+	m_bManualControl(false),
+	m_icx(cx),
+	m_icy(cy)
 {
 	//create walls per default
 	CreateWalls();
@@ -55,50 +57,45 @@ GameWorld::GameWorld(int cx, int cy) :
 	double border = 30;
 	m_pPath = new Path(5, border, border, cx - border, cy - border, true);
 
+	CreatesAllVehicles();
+}
 
-	// CREATE THE LEADER
-	// leader spawnPos
-	Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
-		cy / 2.0 + RandomClamped()*cy / 2.0);
+void GameWorld::CreatesAllVehicles() {
 
-	// Agent leader
-	pLeader = new AgentLeader(this,
-		SpawnPos,                 //initial position
-		RandFloat()*TwoPi,        //start rotation
-		Vector2D(0, 0),            //velocity
-		Prm.VehicleMass,          //mass
-		Prm.MaxSteeringForce,     //max force
-		Prm.MaxSpeed,             //max velocity
-		Prm.MaxTurnRatePerSecond, //max turn rate
-		Prm.VehicleScale);        //scale
+	// CREATE ALL THE LEADERS
+	for (int a = 0; a < Prm.NumLeaders; ++a)
+	{
+		//determine a random starting position
+		Vector2D SpawnPos = Vector2D(m_icx / 2.0 + RandomClamped()*m_icx / 2.0,
+			m_icy / 2.0 + RandomClamped()*m_icy / 2.0);
 
-	m_Vehicles.push_back(pLeader);
-	m_Leaders.push_back(pLeader);
+		AgentLeader* pLeader = new AgentLeader(this,
+			SpawnPos,                 //initial position
+			RandFloat()*TwoPi,        //start rotation
+			Vector2D(0, 0),            //velocity
+			Prm.VehicleMass,          //mass
+			Prm.MaxSteeringForce,     //max force
+			Prm.MaxSpeed,             //max velocity
+			Prm.MaxTurnRatePerSecond, //max turn rate
+			Prm.VehicleScale);        //scale
 
-	/*Vehicle* pTarget = pLeader;*/
-	/*
-	SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
-		cy / 2.0 + RandomClamped()*cy / 2.0);
-	AgentLeader* pLeader2 = new AgentLeader(this,
-		SpawnPos,                 //initial position
-		RandFloat()*TwoPi,        //start rotation
-		Vector2D(0, 0),            //velocity
-		Prm.VehicleMass,          //mass
-		Prm.MaxSteeringForce,     //max force
-		Prm.MaxSpeed,             //max velocity
-		Prm.MaxTurnRatePerSecond, //max turn rate
-		Prm.VehicleScale);        //scale
+		// set the color depending on the number of the leader
+		pLeader->setColorByInt(a);
 
-	m_Vehicles.push_back(pLeader2);
-	*/
+		m_Vehicles.push_back(pLeader);
+		m_Leaders.push_back(pLeader);
+
+		//add it to the cell subdivision
+		m_pCellSpace->AddEntity(pLeader);
+	}
 
 	// CREATE ALL THE AGENT POURSUIVEUR
 	for (int a = 0; a < Prm.NumAgents; ++a)
 	{
 
 		//determine a random starting position
-		Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
-			cy / 2.0 + RandomClamped()*cy / 2.0);
+		Vector2D SpawnPos = Vector2D(m_icx / 2.0 + RandomClamped()*m_icx / 2.0,
+			m_icy / 2.0 + RandomClamped()*m_icy / 2.0);
 
 
 		AgentPoursuiveur* pPoursuiveur = new AgentPoursuiveur(this,
@@ -109,8 +106,7 @@ GameWorld::GameWorld(int cx, int cy) :
 			Prm.MaxSteeringForce,     //max force
 			Prm.MaxSpeed,             //max velocity
 			Prm.MaxTurnRatePerSecond, //max turn rate
-			Prm.VehicleScale/*,
-			pTarget*/);        //scale
+			Prm.VehicleScale);        //scale
 
 		m_Vehicles.push_back(pPoursuiveur);
 
@@ -118,58 +114,23 @@ GameWorld::GameWorld(int cx, int cy) :
 
 		//add it to the cell subdivision
 		m_pCellSpace->AddEntity(pPoursuiveur);
-
-		/*pTarget = pPoursuiveur;*/
 	}
-	//setup the agents
-	/*for (int a = 0; a < Prm.NumAgents-1; ++a)
-	{
-
-		//determine a random starting position
-		Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped()*cx / 2.0,
-			cy / 2.0 + RandomClamped()*cy / 2.0);
-
-
-		Vehicle* pVehicle = new Vehicle(this,
-			SpawnPos,                 //initial position
-			RandFloat()*TwoPi,        //start rotation
-			Vector2D(0, 0),            //velocity
-			Prm.VehicleMass,          //mass
-			Prm.MaxSteeringForce,     //max force
-			Prm.MaxSpeed,             //max velocity
-			Prm.MaxTurnRatePerSecond, //max turn rate
-			Prm.VehicleScale);        //scale
-
-		pVehicle->Steering()->FlockingOn();
-
-		m_Vehicles.push_back(pVehicle);
-
-		//add it to the cell subdivision
-		m_pCellSpace->AddEntity(pVehicle);
-	}*/
-
-
-
-/*#define SHOAL
-#ifdef SHOAL
-	m_Vehicles[Prm.NumAgents - 1]->Steering()->FlockingOff();
-	m_Vehicles[Prm.NumAgents - 1]->SetScale(Vector2D(10, 10));
-	m_Vehicles[Prm.NumAgents - 1]->Steering()->WanderOn();
-	m_Vehicles[Prm.NumAgents - 1]->SetMaxSpeed(70);
-
-
-	for (int i = 0; i < Prm.NumAgents - 1; ++i)
-	{
-		m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents - 1]);
-
-	}
-#endif*/
-
-	//create any obstacles or walls
-	//CreateObstacles();
-	//CreateWalls();
 }
 
+
+void GameWorld::ResetGame() {
+
+	for (unsigned int a = 0; a < m_Vehicles.size(); ++a)
+	{
+		delete m_Vehicles[a];
+	}
+
+	m_Vehicles.clear();
+	m_Leaders.clear();
+	m_Poursuiveur.clear();
+
+	CreatesAllVehicles();
+}
 
 //-------------------------------- dtor ----------------------------------
 //------------------------------------------------------------------------
@@ -572,10 +533,12 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		if (m_bManualControl) {
 			m_Leaders[0]->Steering()->WanderOff();
 			m_Leaders[0]->Steering()->ManualOn();
+			m_Leaders[0]->setColorByInt(3);
 		}
 		else {
 			m_Leaders[0]->Steering()->WanderOn();
 			m_Leaders[0]->Steering()->ManualOff();
+			m_Leaders[0]->setColorByInt(0);
 		}
 
 		ToggleViewKeys();
@@ -656,7 +619,10 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_UNCHECKED);
 		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_UNCHECKED);
 		ChangeMenuState(hwnd, ID_LEADER_1LEADER, MFS_CHECKED);
+		
+		Prm.NumLeaders = 1;
 
+		ResetGame();
 	}
 
 	break;
@@ -667,6 +633,8 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_UNCHECKED);
 		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_CHECKED);
 
+		Prm.NumLeaders = 2;
+		ResetGame();
 	}
 
 	break;
@@ -678,6 +646,83 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_UNCHECKED);
 		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_CHECKED);
 
+		Prm.NumLeaders = 3;
+		ResetGame();
+	}
+
+	break;
+
+	case ID_POURSUIVEUR_10POURSUIVEURS:
+	{
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_UNCHECKED);
+
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_CHECKED);
+
+		Prm.NumAgents = 10;
+		ResetGame();
+	}
+
+	break;
+
+	case ID_POURSUIVEUR_20POURSUIVEURS:
+	{
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_UNCHECKED);
+
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_CHECKED);
+
+		Prm.NumAgents = 20;
+		ResetGame();
+	}
+
+	break;
+
+	case ID_POURSUIVEUR_30POURSUIVEURS:
+	{
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_UNCHECKED);
+
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_CHECKED);
+
+		Prm.NumAgents = 30;
+		ResetGame();
+	}
+
+	break;
+
+	case ID_POURSUIVEUR_40POURSUIVEURS:
+	{
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_UNCHECKED);
+
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_CHECKED);
+
+		Prm.NumAgents = 40;
+		ResetGame();
+	}
+
+	break;
+
+	case ID_POURSUIVEUR_50POURSUIVEURS:
+	{
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_UNCHECKED);
+
+		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_CHECKED);
+
+		Prm.NumAgents = 50;
+		ResetGame();
 	}
 
 	break;

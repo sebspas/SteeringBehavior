@@ -171,6 +171,10 @@ public:
 	void setColor(ColorVehicle color) {
 		this->currentColor = color;
 	}
+
+	void setColorByInt(int numColor) {
+		this->currentColor = static_cast<ColorVehicle>(numColor);
+	}
 };
 
 #endif
