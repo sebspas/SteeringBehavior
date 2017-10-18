@@ -55,6 +55,27 @@ BEGIN
         MENUITEM "Formation V",                 ID_BEHAVIOUR_FORMATIONV
         MENUITEM "File Indienne",               ID_BEHAVIOUR_FILE, CHECKED
     END
+    POPUP "Nb Agents"
+    BEGIN
+        POPUP "Leader"
+        BEGIN
+            MENUITEM "1 Leader",                    ID_LEADER_1LEADER, CHECKED
+            MENUITEM "2 Leader",                    ID_LEADER_2LEADER
+            MENUITEM "3 Leader",                    ID_LEADER_3LEADER
+        END
+        POPUP "Poursuiveur"
+        BEGIN
+            MENUITEM "10 Poursuiveurs",             ID_POURSUIVEUR_10POURSUIVEURS
+            MENUITEM "20 Poursuiveurs",             ID_POURSUIVEUR_20POURSUIVEURS, CHECKED
+            MENUITEM "30 Poursuiveurs",             ID_POURSUIVEUR_30POURSUIVEURS
+            MENUITEM "40 Poursuiveurs",             ID_POURSUIVEUR_40POURSUIVEURS
+            MENUITEM "50 Poursuiveurs",             ID_POURSUIVEUR_50POURSUIVEURS
+        END
+    END
+    POPUP "Manual"
+    BEGIN
+        MENUITEM "Manual On/Off",               ID_MANUAL_MANUALON
+    END
 END
 
 

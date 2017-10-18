@@ -1664,7 +1664,6 @@ void SteeringBehavior::RenderAids()
 		m_pPath->Render();
 	}
 
-	// TODO
 	if (On(manual)) {
 		if (KEYDOWN('W')) { m_pVehicle->setClampedx(-0.1); m_pVehicle->setClampedy(-0.5); }
 		if (KEYDOWN('E')) { m_pVehicle->setClampedx(-0.1); m_pVehicle->setClampedy(0.5); }

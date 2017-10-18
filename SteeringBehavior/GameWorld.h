@@ -85,6 +85,7 @@ private:
   bool  m_bShowFPS;
   bool  m_bRenderNeighbors;
   bool  m_bViewKeys;
+  bool  m_bManualControl;
   bool  m_bShowCellSpaceInfo;
 
 
@@ -153,6 +154,8 @@ public:
   
   void  ToggleViewKeys(){m_bViewKeys = !m_bViewKeys;}
   bool  ViewKeys()const{return m_bViewKeys;}
+
+  void  ToggleManualControl() { m_bManualControl = !m_bManualControl; }
 
 };
 

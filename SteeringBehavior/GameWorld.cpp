@@ -43,7 +43,8 @@ GameWorld::GameWorld(int cx, int cy) :
 	m_pPath(NULL),
 	m_bRenderNeighbors(false),
 	m_bViewKeys(false),
-	m_bShowCellSpaceInfo(false)
+	m_bShowCellSpaceInfo(false),
+	m_bManualControl(false)
 {
 	//create walls per default
 	CreateWalls();
@@ -73,9 +74,6 @@ GameWorld::GameWorld(int cx, int cy) :
 
 	m_Vehicles.push_back(pLeader);
 	m_Leaders.push_back(pLeader);
-
-	pLeader->Steering()->WanderOff();
-	pLeader->Steering()->ManualOn();
 
 	/*Vehicle* pTarget = pLeader;*/
 	/*
@@ -566,6 +564,26 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 
 	break;
 
+	case ID_MANUAL_MANUALON: {
+		ToggleManualControl();
+
+		CheckMenuItemAppropriately(hwnd, ID_MANUAL_MANUALON, m_bManualControl);
+
+		if (m_bManualControl) {
+			m_Leaders[0]->Steering()->WanderOff();
+			m_Leaders[0]->Steering()->ManualOn();
+		}
+		else {
+			m_Leaders[0]->Steering()->WanderOn();
+			m_Leaders[0]->Steering()->ManualOff();
+		}
+
+		ToggleViewKeys();
+
+		CheckMenuItemAppropriately(hwnd, ID_VIEW_KEYS, m_bViewKeys);
+	}
+	
+	break;
 
 	case ID_VIEW_KEYS:
 	{
@@ -611,7 +629,6 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 			if (m_Poursuiveur[i]->getTarget() != NULL) 
 				m_Poursuiveur[i]->adaptBehavior();
 		}
-
 	}
 
 	break;
@@ -631,7 +648,38 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 				m_Poursuiveur[i]->adaptBehavior();
 		}
 	}
-	
+
+	break;
+
+	case ID_LEADER_1LEADER: 
+	{
+		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_1LEADER, MFS_CHECKED);
+
+	}
+
+	break;
+
+	case ID_LEADER_2LEADER:
+	{
+		ChangeMenuState(hwnd, ID_LEADER_1LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_CHECKED);
+
+	}
+
+	break;
+
+
+	case ID_LEADER_3LEADER:
+	{
+		ChangeMenuState(hwnd, ID_LEADER_1LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_CHECKED);
+
+	}
+
 	break;
 
 	}//end switch
