@@ -27,10 +27,10 @@ class Vehicle : public MovingEntity
 {
 protected:
 	// color of the vehicle
-	enum ColorVehicle { RED, BROWN, ORANGE, BLUE };
+	enum ColorVehicle { RED, BROWN, ORANGE, BLUE, BLACK };
 
 	// current color of the vehicle
-	ColorVehicle currentColor = BLUE;
+	ColorVehicle currentColor = BLACK;
 private:
 
 	//a pointer to the world data. So a vehicle can access any obstacle,

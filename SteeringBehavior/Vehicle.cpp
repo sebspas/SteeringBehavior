@@ -130,6 +130,9 @@ void Vehicle::Render()
   if (currentColor == ColorVehicle::BLUE) {
 	  gdi->BluePen();
   }
+  else if (currentColor == ColorVehicle::BLACK) {
+	  gdi->BlackPen();
+  }
   else if (currentColor == ColorVehicle::RED) {
 	  gdi->RedPen();
   }
