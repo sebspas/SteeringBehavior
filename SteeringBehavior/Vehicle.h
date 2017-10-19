@@ -75,7 +75,7 @@ private:
 	Vehicle* m_pFollower;
 
 	// to know if it's a leader
-	bool         m_isLeader;
+	bool m_isLeader;
 
 	//for manual mode clampedx and clampedy
 	double m_dclampedx;

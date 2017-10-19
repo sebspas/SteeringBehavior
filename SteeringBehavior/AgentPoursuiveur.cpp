@@ -17,6 +17,20 @@ Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 	return pToFollow;
 }
 
+void AgentPoursuiveur::updateFollowers() {
+
+	AgentPoursuiveur* pFollower = this;
+	int num = this->numFollower;
+	while (pFollower->getFollower() != NULL)
+	{
+		pFollower = (AgentPoursuiveur*)pFollower->getFollower();
+
+		pFollower->numFollower = ++num;
+		pFollower->adaptBehavior();
+
+	}
+}
+
 
 // UPDATE OVERRIDE
 
@@ -65,12 +79,17 @@ void AgentPoursuiveur::adaptBehavior() {
 
 	case Behavior::VFLOCKING:
 		this->Steering()->FlockingOn();
+
 		if (this->numFollower % 2 == 0) {
 			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-6, 12 * (this->numFollower+1)));
 		}
 		else {
 			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(18, -12 * (this->numFollower+1)));
 		}
+
+		// update the offset for all the following agent
+		this->updateFollowers();
+
 		break;
 
 	default:

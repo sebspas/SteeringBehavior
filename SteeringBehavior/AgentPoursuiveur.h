@@ -46,6 +46,8 @@ public :
 		this->currentBehavior = behave;
 	}
 
+	void updateFollowers();
+
 private:
 
 
