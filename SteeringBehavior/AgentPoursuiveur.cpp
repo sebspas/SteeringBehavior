@@ -6,9 +6,11 @@
 Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 {
 	numFollower = 0;
+	Vehicle* pLeader = pToFollow;
 	while (pToFollow->getFollower() != NULL)
 	{
 		pToFollow = pToFollow->getFollower();
+		pToFollow->setColor(pLeader->getCurrentColor());
 		numFollower++;
 	}
 	return pToFollow;
@@ -60,27 +62,15 @@ void AgentPoursuiveur::adaptBehavior() {
 		break;
 
 	case Behavior::VFLOCKING:
-		/*
-		// set agent before last as target
-		this->setTarget(pBeforeLast);
-		this->Steering()->FlockingOn();
-
-		if (numFollower == 0) {
-			this->Steering()->OffsetPursuitOn(this->getTargetLeader(), Vector2D(-8, 12));
-		}
-		else if (numFollower == 1) {
-			this->Steering()->OffsetPursuitOn(this->getTargetLeader(), Vector2D(-8, -12));
-		}
-		else if (this->numFollower % 2 == 0) {
-			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-3, 12 * this->numFollower));
+		if (this->numFollower % 2 == 0) {
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-6, 12 * (this->numFollower+1)));
 		}
 		else {
-			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(3, -12 * this->numFollower));
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(18, -12 * (this->numFollower+1)));
 		}
 		break;
 
 	default:
 		break;
-		*/
 	}
 }
