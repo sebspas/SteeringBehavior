@@ -2,8 +2,10 @@
 #define CONSTANTS_H
 
 //change these values at your peril!
+
 const int constWindowWidth  = 780;
 const int constWindowHeight = 780;
+
 
 
 #endif
