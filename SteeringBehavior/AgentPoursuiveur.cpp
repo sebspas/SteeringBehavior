@@ -11,13 +11,11 @@ Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 		pToFollow = pToFollow->getFollower();
 		numFollower++;
 	}
-
 	return pToFollow;
 }
 
 
 // UPDATE OVERRIDE
-
 void AgentPoursuiveur::Update(double time_elapsed)
 {
 	Vehicle * pTargetLeader = NULL;
@@ -41,9 +39,6 @@ void AgentPoursuiveur::Update(double time_elapsed)
 		this->setTarget(findWhoFollow(pTargetLeader));
 		this->Steering()->WanderOff();
 
-		// normal offset pursuit behavior
-		// this->adaptBehavior(Behavior::INLINE);
-
 		// attempt at V-flocking beahvior
 		this->adaptBehavior();
 
@@ -65,16 +60,27 @@ void AgentPoursuiveur::adaptBehavior() {
 		break;
 
 	case Behavior::VFLOCKING:
+		/*
+		// set agent before last as target
+		this->setTarget(pBeforeLast);
 		this->Steering()->FlockingOn();
-		if (this->numFollower % 2 == 0) {
+
+		if (numFollower == 0) {
+			this->Steering()->OffsetPursuitOn(this->getTargetLeader(), Vector2D(-8, 12));
+		}
+		else if (numFollower == 1) {
+			this->Steering()->OffsetPursuitOn(this->getTargetLeader(), Vector2D(-8, -12));
+		}
+		else if (this->numFollower % 2 == 0) {
 			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-3, 12 * this->numFollower));
 		}
 		else {
-			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(0, -12 * this->numFollower));
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(3, -12 * this->numFollower));
 		}
 		break;
 
 	default:
 		break;
+		*/
 	}
 }

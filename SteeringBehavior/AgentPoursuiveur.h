@@ -10,7 +10,7 @@ class AgentPoursuiveur : public Vehicle
 
 public :
 
-	int numFollower = 1;
+	int numFollower = -1;
 
 	// the different behavior for the poursuiveur
 	enum class Behavior { INLINE, VFLOCKING };
