@@ -6,9 +6,11 @@
 Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 {
 	numFollower = 0;
+	Vehicle* pLeader = pToFollow;
 	while (pToFollow->getFollower() != NULL)
 	{
 		pToFollow = pToFollow->getFollower();
+		pToFollow->setColor(pLeader->getCurrentColor());
 		numFollower++;
 	}
 
@@ -40,9 +42,6 @@ void AgentPoursuiveur::Update(double time_elapsed)
 	if (pTargetLeader != NULL && this->getTargetLeader() != pTargetLeader) {
 		this->setTarget(findWhoFollow(pTargetLeader));
 		this->Steering()->WanderOff();
-
-		// normal offset pursuit behavior
-		// this->adaptBehavior(Behavior::INLINE);
 
 		// attempt at V-flocking beahvior
 		this->adaptBehavior();

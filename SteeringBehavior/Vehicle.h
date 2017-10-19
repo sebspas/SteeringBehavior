@@ -27,7 +27,7 @@ class Vehicle : public MovingEntity
 {
 protected:
 	// color of the vehicle
-	enum ColorVehicle { RED, GREEN, YELLOW, BLUE };
+	enum ColorVehicle { RED, BROWN, ORANGE, BLUE };
 
 	// current color of the vehicle
 	ColorVehicle currentColor = BLUE;
