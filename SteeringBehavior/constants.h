@@ -3,8 +3,8 @@
 
 //change these values at your peril!
 
-const int constWindowWidth  = 780;
-const int constWindowHeight = 780;
+const int constWindowWidth  = 800;
+const int constWindowHeight = 800;
 
 
 

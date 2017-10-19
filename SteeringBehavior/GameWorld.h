@@ -96,7 +96,7 @@ private:
 
   void CreatesAllVehicles();
 
-  void ResetGame();
+  void ResetGame(HWND hwnd);
 
 public:
   

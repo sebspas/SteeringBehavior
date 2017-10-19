@@ -118,7 +118,10 @@ void GameWorld::CreatesAllVehicles() {
 }
 
 
-void GameWorld::ResetGame() {
+void GameWorld::ResetGame(HWND hwnd) {
+	ChangeMenuState(hwnd, ID_BEHAVIOUR_FORMATIONV, MFS_UNCHECKED);
+	ChangeMenuState(hwnd, ID_BEHAVIOUR_FILE, MFS_CHECKED);
+	ChangeMenuState(hwnd, ID_MANUAL_MANUALON, MFS_UNCHECKED);
 
 	for (unsigned int a = 0; a < m_Vehicles.size(); ++a)
 	{
@@ -622,7 +625,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		
 		Prm.NumLeaders = 1;
 
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -634,7 +637,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_LEADER_2LEADER, MFS_CHECKED);
 
 		Prm.NumLeaders = 2;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -647,7 +650,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_LEADER_3LEADER, MFS_CHECKED);
 
 		Prm.NumLeaders = 3;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -662,7 +665,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_POURSUIVEUR_10POURSUIVEURS, MFS_CHECKED);
 
 		Prm.NumAgents = 10;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -677,7 +680,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_POURSUIVEUR_20POURSUIVEURS, MFS_CHECKED);
 
 		Prm.NumAgents = 20;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -692,7 +695,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_POURSUIVEUR_30POURSUIVEURS, MFS_CHECKED);
 
 		Prm.NumAgents = 30;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -707,7 +710,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_POURSUIVEUR_40POURSUIVEURS, MFS_CHECKED);
 
 		Prm.NumAgents = 40;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
@@ -722,7 +725,7 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 		ChangeMenuState(hwnd, ID_POURSUIVEUR_50POURSUIVEURS, MFS_CHECKED);
 
 		Prm.NumAgents = 50;
-		ResetGame();
+		ResetGame(hwnd);
 	}
 
 	break;
