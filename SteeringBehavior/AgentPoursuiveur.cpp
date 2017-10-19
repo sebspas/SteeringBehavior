@@ -13,13 +13,11 @@ Vehicle * AgentPoursuiveur::findWhoFollow(Vehicle* pToFollow)
 		pToFollow->setColor(pLeader->getCurrentColor());
 		numFollower++;
 	}
-
 	return pToFollow;
 }
 
 
 // UPDATE OVERRIDE
-
 void AgentPoursuiveur::Update(double time_elapsed)
 {
 	Vehicle * pTargetLeader = NULL;
@@ -38,7 +36,7 @@ void AgentPoursuiveur::Update(double time_elapsed)
 		}
 	}
 
-	// If the agent isn't following and a leader is near 
+	// If the agent isn't following the nearest leader
 	if (pTargetLeader != NULL && this->getTargetLeader() != pTargetLeader) {
 		this->setTarget(findWhoFollow(pTargetLeader));
 		this->Steering()->WanderOff();
@@ -64,7 +62,6 @@ void AgentPoursuiveur::adaptBehavior() {
 		break;
 
 	case Behavior::VFLOCKING:
-		this->Steering()->FlockingOn();
 		if (this->numFollower % 2 == 0) {
 			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-6, 12 * (this->numFollower+1)));
 		}
