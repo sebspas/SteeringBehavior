@@ -67,10 +67,10 @@ void AgentPoursuiveur::adaptBehavior() {
 	case Behavior::VFLOCKING:
 		this->Steering()->FlockingOn();
 		if (this->numFollower % 2 == 0) {
-			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-3, 12 * this->numFollower));
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(-6, 12 * (this->numFollower+1)));
 		}
 		else {
-			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(0, -12 * this->numFollower));
+			this->Steering()->OffsetPursuitOn(this->getTarget(), Vector2D(18, -12 * (this->numFollower+1)));
 		}
 		break;
 
