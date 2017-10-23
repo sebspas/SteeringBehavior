@@ -1,9 +1,12 @@
-8IAR125 - Rendu TP2 : Comportement d’un agent -Steering Behavior-
+﻿8IAR125 - Rendu TP2 : Comportement d’un agent -Steering Behavior-
 
 Groupe de travail :
 CORFA Sébastien 	- CORS22119501
 CROS Camille 		- CROC02529501
 DECHAUX Quentin 	- DECQ24049507
+
+/!\ Par défaut les murs sont actifs pour permettre de mieux voir les formations. Le mode de calcul est en 
+WeightedSum, si celui-ci est changé le comportement des agents devient trop chaotique pour distinguer les formations.
 
 Réponses aux questions
 3) 	Notre calcul de l'agent leader le plus proche est dynamique : à chaque Update(), l'agent-poursuiveur
