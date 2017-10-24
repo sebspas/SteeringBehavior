@@ -38,6 +38,7 @@ public :
 	{
 		// smart follower
 		this->Steering()->WanderOn();
+		this->Steering()->SeparationOn();
 	};
 
 	void AgentPoursuiveur::adaptBehavior();
